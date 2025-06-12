@@ -64,5 +64,5 @@ jobs:
         with:
           app-name: 'portfoliobe'
           slot-name: 'Production'
-          package: dotnet-app
+          package: ./dotnet-app/**
           
