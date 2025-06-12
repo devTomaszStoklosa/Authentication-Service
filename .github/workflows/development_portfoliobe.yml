@@ -50,13 +50,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dotnet-app
-      
+          path: ./dotnet-app
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_449673090E104982B7AC377F133BDA7B }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_62F8245DE0494D5EB4C8D4A824AA86F2 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F1CC10104E2A4C5E89AC239E825F91DB }}
+
+      - name: List files for debug
+        run: dir ./dotnet-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -65,7 +69,3 @@ jobs:
           app-name: 'portfoliobe'
           slot-name: 'Production'
           package: ./dotnet-app
-
-      - name: List files for debug
-        run: dir ./dotnet-app
-          
