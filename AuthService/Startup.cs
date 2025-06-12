@@ -16,15 +16,25 @@ namespace AuthService
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
+            var corsOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins(corsOrigins ?? Array.Empty<string>())
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();           
             services.AddSingleton<AuthService.Services.CosmosDbUserService>();
@@ -47,6 +57,8 @@ namespace AuthService
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
