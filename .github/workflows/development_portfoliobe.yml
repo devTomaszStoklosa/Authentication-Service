@@ -64,5 +64,8 @@ jobs:
         with:
           app-name: 'portfoliobe'
           slot-name: 'Production'
-          package: ./dotnet-app/**
+          package: ./dotnet-app
+
+      - name: List files for debug
+        run: dir ./dotnet-app
           
